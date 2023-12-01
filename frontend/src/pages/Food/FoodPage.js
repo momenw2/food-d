@@ -30,7 +30,7 @@
         <div className={classes.container}>
             <img
                 className={classes.image}
-                src={`/foods/${food.imageUrl}`}
+                src={`${food.imageUrl}`}
                 alt={food.name}
             />
             <div className={classes.details}>
