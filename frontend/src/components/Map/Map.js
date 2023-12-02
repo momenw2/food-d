@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import classes from './map.module.css';
-import 'leaflet/dist/leaflet.css';
-import {
+    import React, { useState, useEffect } from 'react';
+    import classes from './map.module.css';
+    import 'leaflet/dist/leaflet.css';
+    import {
     MapContainer,
     TileLayer,
     Marker,
     Popup,
     useMapEvents,
-} from 'react-leaflet';
-import { toast } from 'react-toastify';
+    } from 'react-leaflet';
+    import { toast } from 'react-toastify';
 
-export default function Map({ readonly, location, onChange }) {
+    export default function Map({ readonly, location, onChange }) {
     return (
         <div className={classes.container}>
-            <MapContainer
+        <MapContainer
             className={classes.map}
             center={[0, 0]}
             zoom={1}
@@ -24,67 +24,67 @@ export default function Map({ readonly, location, onChange }) {
             boxZoom={!readonly}
             keyboard={!readonly}
             attributionControl={false}
-            >
+        >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <FindButtonAndMarker
-                readonly={readonly}
-                location={location}
-                onChange={onChange}
+            readonly={readonly}
+            location={location}
+            onChange={onChange}
             />
-            </MapContainer>
+        </MapContainer>
         </div>
-        );
+    );
     }
-    
+
     function FindButtonAndMarker({ readonly, location, onChange }) {
-        const [position, setPosition] = useState(location);
-    
-        useEffect(() => {
+    const [position, setPosition] = useState(location);
+
+    useEffect(() => {
         if (readonly) {
-            map.setView(position, 13);
-            return;
+        map.setView(position, 13);
+        return;
         }
         if (position) onChange(position);
-        }, [position]);
-    
-        const map = useMapEvents({
+    }, [position]);
+
+    const map = useMapEvents({
         click(e) {
-            !readonly && setPosition(e.latlng);
+        !readonly && setPosition(e.latlng);
         },
         locationfound(e) {
-            setPosition(e.latlng);
-            map.flyTo(e.latlng, 13);
+        setPosition(e.latlng);
+        map.flyTo(e.latlng, 13);
         },
         locationerror(e) {
-            toast.error(e.message);
+        toast.error(e.message);
         },
-        });
-    
-        return (
+    });
+
+    return (
         <>
-            {!readonly && (
+        {!readonly && (
             <button
-                type="button"
-                className={classes.find_location}
-                onClick={() => map.locate()}
+            type="button"
+            className={classes.find_location}
+            onClick={() => map.locate()}
             >
-                Find My Location
+            Find My Location
             </button>
-            )}
-    
-            {position && (
+        )}
+
+        {position && (
             <Marker
-                eventHandlers={{
+            eventHandlers={{
                 dragend: e => {
-                    setPosition(e.target.getLatLng());
+                setPosition(e.target.getLatLng());
                 },
-                }}
-                position={position}
-                draggable={!readonly}
+            }}
+            position={position}
+            draggable={!readonly}
             >
-                <Popup>Shipping Location</Popup>
+            <Popup>Shipping Location</Popup>
             </Marker>
-            )}
+        )}
         </>
-        );
+    );
     }

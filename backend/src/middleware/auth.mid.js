@@ -1,7 +1,9 @@
-import { verify } from 'jsonwebtoken';
-import { UNAUTHORIZED } from '../constants/httpStatus.js';
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
+    // import { verify } from 'jsonwebtoken';  
+    import { UNAUTHORIZED } from '../constants/httpStatus.js';
 
-export default (req, res, next) => {
+    export default (req, res, next) => {
     const token = req.headers.access_token;
     if (!token) return res.status(UNAUTHORIZED).send();
 
@@ -13,4 +15,4 @@ export default (req, res, next) => {
     }
 
     return next();
-};
+    };
