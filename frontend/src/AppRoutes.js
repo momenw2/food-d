@@ -5,8 +5,8 @@
     import HomePage from './pages/Home/HomePage';
     import LoginPage from './pages/Login/LoginPage';
     import RegisterPage from './pages/Register/RegisterPage';
-    // import AuthRoute from './components/AuthRoute/AuthRoute';
-    // import CheckoutPage from './pages/Checkout/CheckoutPage';
+    import AuthRoute from './components/AuthRoute/AuthRoute';
+    import CheckoutPage from './pages/Checkout/CheckoutPage';
     // import PaymentPage from './pages/Payment/PaymentPage';
     // import OrderTrackPage from './pages/OrderTrack/OrderTrackPage';
     // import ProfilePage from './pages/Profile/ProfilePage';
@@ -25,7 +25,7 @@
         <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        {/* <Route
+        <Route
             path="/checkout"
             element={
             <AuthRoute>
@@ -33,47 +33,47 @@
             </AuthRoute>
             }
         />
-        <Route
+        {/* <Route
             path="/payment"
             element={
             <AuthRoute>
                 <PaymentPage />
             </AuthRoute>
             }
-        />
-        <Route
+        /> */}
+        {/* <Route
             path="/track/:orderId"
             element={
             <AuthRoute>
                 <OrderTrackPage />
             </AuthRoute>
             }
-        />
-        <Route
+        /> */}
+        {/* <Route
             path="/profile"
             element={
             <AuthRoute>
                 <ProfilePage />
             </AuthRoute>
             }
-        />
-        <Route
+        /> */}
+        {/* <Route
             path="/orders/:filter?"
             element={
             <AuthRoute>
                 <OrdersPage />
             </AuthRoute>
             }
-        />
-        <Route
+        /> */}
+        {/* <Route
             path="/dashboard"
             element={
             <AuthRoute>
                 <Dashboard />
             </AuthRoute>
             }
-        />
-        <Route
+        /> */}
+        {/* <Route
             path="/admin/foods/:searchTerm?"
             element={
             <AdminRoute>
