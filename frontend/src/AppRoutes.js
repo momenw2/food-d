@@ -8,7 +8,7 @@
     import AuthRoute from './components/AuthRoute/AuthRoute';
     import CheckoutPage from './pages/Checkout/CheckoutPage';
     import PaymentPage from './pages/Payment/PaymentPage';
-    // import OrderTrackPage from './pages/OrderTrack/OrderTrackPage';
+    import OrderTrackPage from './pages/OrderTrack/OrderTrackPage';
     // import ProfilePage from './pages/Profile/ProfilePage';
     // import OrdersPage from './pages/Orders/OrdersPage';
     // import Dashboard from './pages/Dashboard/Dashboard';
@@ -34,21 +34,21 @@
             }
         />
         <Route
-            path="/payment"
-            element={
+        path="/payment"
+        element={
             <AuthRoute>
                 <PaymentPage />
             </AuthRoute>
             }
         />
-        {/* <Route
+        <Route
             path="/track/:orderId"
             element={
             <AuthRoute>
                 <OrderTrackPage />
             </AuthRoute>
             }
-        /> */}
+        />
         {/* <Route
             path="/profile"
             element={
