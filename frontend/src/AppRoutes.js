@@ -9,9 +9,9 @@
     import CheckoutPage from './pages/Checkout/CheckoutPage';
     import PaymentPage from './pages/Payment/PaymentPage';
     import OrderTrackPage from './pages/OrderTrack/OrderTrackPage';
-    // import ProfilePage from './pages/Profile/ProfilePage';
-    // import OrdersPage from './pages/Orders/OrdersPage';
-    // import Dashboard from './pages/Dashboard/Dashboard';
+    import ProfilePage from './pages/Profile/ProfilePage';
+    import OrdersPage from './pages/Orders/OrdersPage';
+    import Dashboard from './pages/Dashboard/Dashboard';
     // import AdminRoute from './components/AdminRoute/AdminRoute';
     // import FoodsAdminPage from './pages/FoodsAdmin/FoodsAdminPage';
 
@@ -49,30 +49,30 @@
             </AuthRoute>
             }
         />
-        {/* <Route
+        <Route
             path="/profile"
             element={
             <AuthRoute>
                 <ProfilePage />
             </AuthRoute>
             }
-        /> */}
-        {/* <Route
+        />
+        <Route
             path="/orders/:filter?"
             element={
             <AuthRoute>
                 <OrdersPage />
             </AuthRoute>
             }
-        /> */}
-        {/* <Route
+        />
+        <Route
             path="/dashboard"
             element={
             <AuthRoute>
                 <Dashboard />
             </AuthRoute>
             }
-        /> */}
+        />
         {/* <Route
             path="/admin/foods/:searchTerm?"
             element={
