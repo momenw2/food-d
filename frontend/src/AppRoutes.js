@@ -7,7 +7,7 @@
     import RegisterPage from './pages/Register/RegisterPage';
     import AuthRoute from './components/AuthRoute/AuthRoute';
     import CheckoutPage from './pages/Checkout/CheckoutPage';
-    // import PaymentPage from './pages/Payment/PaymentPage';
+    import PaymentPage from './pages/Payment/PaymentPage';
     // import OrderTrackPage from './pages/OrderTrack/OrderTrackPage';
     // import ProfilePage from './pages/Profile/ProfilePage';
     // import OrdersPage from './pages/Orders/OrdersPage';
@@ -33,14 +33,14 @@
             </AuthRoute>
             }
         />
-        {/* <Route
+        <Route
             path="/payment"
             element={
             <AuthRoute>
                 <PaymentPage />
             </AuthRoute>
             }
-        /> */}
+        />
         {/* <Route
             path="/track/:orderId"
             element={
