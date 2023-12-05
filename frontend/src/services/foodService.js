@@ -1,31 +1,31 @@
-import axios from "axios";
-export const getAll = async () => {
-    const { data } = await axios.get('api/foods');
-    return data;
-};
+    import axios from 'axios';
 
-export const search = async searchTerm => 
-{
+    export const getAll = async () => {
+    const { data } = await axios.get('/api/foods');
+    return data;
+    };
+
+    export const search = async searchTerm => {
     const { data } = await axios.get('/api/foods/search/' + searchTerm);
     return data;
-}
+    };
 
-export const getAllTags = async () => {
+    export const getAllTags = async () => {
     const { data } = await axios.get('/api/foods/tags');
     return data;
-};
+    };
 
-export const getAllByTag = async tag => {
+    export const getAllByTag = async tag => {
     if (tag === 'All') return getAll();
     const { data } = await axios.get('/api/foods/tag/' + tag);
     return data;
     };
 
-        export const getById = async (foodId) => {
-            const { data } = await axios.get('/api/foods/' + foodId);
-            return data;           
-             // if (!food) {
-            // throw new Error(`Food with ID ${foodId} not found`);
-            // }
-            // return food;
-        };
+    export const getById = async foodId => {
+    const { data } = await axios.get('/api/foods/' + foodId);
+    return data;
+    };
+
+    export async function deleteById(foodId) {
+    await axios.delete('/api/foods/' + foodId);
+    }

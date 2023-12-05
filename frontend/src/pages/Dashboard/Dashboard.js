@@ -13,6 +13,7 @@
             .filter(item => user.isAdmin || !item.forAdmin)
             .map(item => (
                 <Link
+                key={item.title}
                 to={item.url}
                 style={{
                     backgroundColor: item.bgColor,
