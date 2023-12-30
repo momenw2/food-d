@@ -9,41 +9,151 @@
     const router = Router();
     router.use(auth);
 
+    // router.post(
+    // '/create',
+    // handler(async (req, res) => {
+    //     const order = req.body;
+
+    //     if (order.items.length <= 0) res.status(BAD_REQUEST).send('Cart Is Empty!');
+
+    //     await OrderModel.deleteOne({
+    //     user: req.user.id,
+    //     status: OrderStatus.NEW,
+    //     });
+
+    //     const newOrder = new OrderModel({ ...order, user: req.user.id });
+    //     await newOrder.save();
+    //     res.send(newOrder);
+    // })
+    // );
+
     router.post(
-    '/create',
-    handler(async (req, res) => {
-        const order = req.body;
+        '/create',
+        handler(async (req, res) => {
+            const order = req.body;
+        
+            if (order.items.length <= 0) {
+                return res.status(BAD_REQUEST).send('Cart Is Empty!');
+            }
+            
+        
+            const newOrder = new OrderModel({ ...order, user: req.user.id });
+            await newOrder.save();
+            res.send(newOrder);
+            })
+        );
+        
 
-        if (order.items.length <= 0) res.status(BAD_REQUEST).send('Cart Is Empty!');
-
-        await OrderModel.deleteOne({
-        user: req.user.id,
-        status: OrderStatus.NEW,
-        });
-
-        const newOrder = new OrderModel({ ...order, user: req.user.id });
-        await newOrder.save();
-        res.send(newOrder);
-    })
-    );
+    // router.put(
+    //     '/pay',
+    //     handler(async (req, res) => {
+    //         const { paymentId } = req.body;
+    //         const order = await getNewOrderForCurrentUser(req);
+    //         if (!order) {
+    //             res.status(BAD_REQUEST).send('Order Not Found!');
+    //             return;
+    //         }
+        
+    //         order.paymentId = paymentId;
+    //         order.status = OrderStatus.PAYED;
+    //         await order.save();
+        
+    //         res.send(order._id);
+    //         })
+    //     );
 
     router.put(
         '/pay',
         handler(async (req, res) => {
-            const { paymentId } = req.body;
             const order = await getNewOrderForCurrentUser(req);
             if (!order) {
                 res.status(BAD_REQUEST).send('Order Not Found!');
                 return;
             }
+    
+            // Assuming the status change here is without any additional parameter like paymentId
+            order.status = OrderStatus.PAYED; // Update the status directly
+            
+            try {
+                await order.save(); // Save the updated order
+                res.send(order._id);
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                res.status(500).send('Internal Server Error');
+            }
+        })
+    );
+    
+
+    router.put('/pay/:orderId', handler(async (req, res) => {
+        const { orderId } = req.params;
+    
+        try {
+            const order = await OrderModel.findOneAndUpdate(
+                { _id: orderId, user: req.user.id, status: 'NEW' }, // Conditions to find the order
+                { $set: { status: 'PAYED' } }, // Set the status to PAYED
+                { new: true } // To get the updated order
+            );
+    
+            if (!order) {
+                return res.status(BAD_REQUEST).send('Order Not Found or Already Paid!');
+            }
+    
+            res.send(order);
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    }));
+    
+    router.put('/ship/:orderId', handler(async (req, res) => {
+        const { orderId } = req.params;
+    
+        try {
+            const order = await OrderModel.findOneAndUpdate(
+                { _id: orderId, user: req.user.id, status: 'NEW' }, // Conditions to find the order
+                { $set: { status: 'CONFIRMED' } }, // Set the status to SHIPPED
+                { new: true } // To get the updated order
+            );
+    
+            if (!order) {
+                return res.status(BAD_REQUEST).send('Order Not Found or Already Shipped!');
+            }
+    
+            res.send(order);
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            res.status(500).send('Internal Server Error');
+        }
+    }));
+    
+
+    
+            
+            router.put(
+                '/updateStatus/:orderId', // Adjusted endpoint to update the status
+                handler(async (req, res) => {
+                    const { orderId } = req.params;
+                    try {
+                        const order = await OrderModel.findOneAndUpdate(
+                            { _id: orderId, user: req.user.id, status: 'NEW' }, // Conditions to find the order
+                            { $set: { status: 'PAYED' } }, // Set the status to PAYED
+                            { new: true } // To get the updated order
+                        );
+            
+                        if (!order) {
+                            return res.status(BAD_REQUEST).send('Order Not Found or Already Paid!');
+                        }
+            
+                        res.send(order);
+                    } catch (error) {
+                        console.error('Error updating order status:', error);
+                        res.status(500).send('Internal Server Error');
+                    }
+                })
+            );
+            
         
-            order.paymentId = paymentId;
-            order.status = OrderStatus.PAYED;
-            await order.save();
-        
-            res.send(order._id);
-            })
-        );
 
         router.get(
             '/track/:orderId',
@@ -66,7 +176,8 @@
                 return res.send(order);
                 })
             );
-        
+            
+                
         router.get(
             '/newOrderForCurrentUser',
             handler(async (req, res) => {

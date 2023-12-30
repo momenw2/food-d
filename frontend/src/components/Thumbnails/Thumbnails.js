@@ -28,15 +28,15 @@
                     <StarRating stars={food.stars} />
                 </div>
                 <div className={classes.product_item_footer}>
-                    <div className={classes.origins}>
+                    {/* <div className={classes.origins}>
                     {food.origins.map(origin => (
                         <span key={origin}>{origin}</span>
                     ))}
-                    </div>
-                    <div className={classes.cook_time}>
+                    </div> */}
+                    {/* <div className={classes.cook_time}>
                     <span>🕒</span>
                     {food.cookTime}
-                    </div>
+                    </div> */}
                 </div>
                 <div className={classes.price}>
                     <Price price={food.price} />

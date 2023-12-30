@@ -1,11 +1,15 @@
     import React, { useEffect, useReducer } from 'react';
     import { Link, useParams } from 'react-router-dom';
-    import { getAll, getAllStatus } from '../../services/orderService';
+    import { getAll, getAllStatus, updateOrderStatus } from '../../services/orderService';
     import classes from './ordersPage.module.css';
     import Title from '../../components/Title/Title';
     import DateTime from '../../components/DateTime/DateTime';
     import Price from '../../components/Price/Price';
     import NotFound from '../../components/NotFound/NotFound';
+    import { payOrder } from '../../services/orderService';
+    import { shipOrder } from '../../services/orderService'; // Import the 'shipOrder' function
+    // import { shipOrder } from '../../services/orderService';
+
 
     const initialState = {};
     const reducer = (state, action) => {
@@ -33,6 +37,75 @@
         dispatch({ type: 'ORDERS_FETCHED', payload: orders });
         });
     }, [filter]);
+
+
+
+    
+    const confirmOrder = async orderId => {
+        try {
+            // Update the order status to 'SHIPPED' using the payOrder function
+            await updateOrderStatus(orderId, 'CONFIRMED'); // Assume you have a function to update the order status
+            
+            // Fetch updated orders after status change
+            const updatedOrders = await getAll(filter);
+            dispatch({ type: 'ORDERS_FETCHED', payload: updatedOrders });
+        } catch (error) {
+            console.error('Error confirming order:', error);
+            // Handle error cases here
+        }
+    };
+    
+    
+    
+
+        const fetchOrders = async () => {
+            try {
+                const statusData = await getAllStatus();
+                dispatch({ type: 'ALL_STATUS_FETCHED', payload: statusData });
+    
+                const ordersData = await getAll(filter);
+                dispatch({ type: 'ORDERS_FETCHED', payload: ordersData });
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        };
+    
+        useEffect(() => {
+            fetchOrders();
+        }, [filter]);
+    
+
+        const handleConfirmOrder = async (orderId) => {
+            try {
+                await confirmOrder(orderId); // Call the service to update order status
+                // After successfully updating, update the orders list accordingly
+                const updatedOrders = orders.map(order => {
+                    if (order.id === orderId) {
+                        return { ...order, status: 'PAYED' }; // Update the order status locally
+                    }
+                    return order;
+                });
+                dispatch({ type: 'ORDERS_FETCHED', payload: updatedOrders });
+            } catch (error) {
+                console.error('Error confirming order:', error);
+            }
+        };
+
+
+        const handleShipOrder = async orderId => {
+            try {
+                await shipOrder(orderId); // Call the service to update order status
+        
+                // Refresh the page after shipping the order
+                window.location.reload();
+            } catch (error) {
+                console.error('Error shipping order:', error);
+                // Handle the error
+            }
+        };
+        
+
+
 
     return (
         <div className={classes.container}>
@@ -82,6 +155,9 @@
                 <div className={classes.footer}>
                 <div>
                     <Link to={`/track/${order.id}`}>Show Order</Link>
+                    {order.status === 'NEW' && (
+    <button onClick={() => handleShipOrder(order.id)} className={classes.confirmOrderButton} >Confirm Order</button>
+)}
                 </div>
                 <div>
                     <span className={classes.price}>

@@ -44,6 +44,41 @@ import { useAuth } from '../../hooks/useAuth';
                         })}
                         error={errors.name}
                     />
+
+<Input
+    type="date"
+    label="BirthDate"
+    {...register('birthdate', {
+        required: true,
+    })}
+    error={errors.birthdate}
+/>
+
+<Input
+    type="tel"
+    label="Phone number"
+    placeholder="+7 (xxx) xxx-xx-xx"
+    {...register('phoneNumber', {
+        required: true,
+        pattern: {
+            value: /^\+7\d{10}$/,
+            message: 'Please enter a valid phone number: +7 (xxx) xxx-xx-xx',
+        },
+    })}
+    error={errors.phoneNumber}
+/>
+
+<div>
+    <label>Gender</label>
+    <select {...register('gender', { required: true })} defaultValue="">
+        <option value="" disabled hidden>
+            Select Gender
+        </option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+    </select>
+    {errors.gender && <span>This field is required</span>}
+</div>
             
                     <Input
                         type="email"

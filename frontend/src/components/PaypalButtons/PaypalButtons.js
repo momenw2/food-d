@@ -19,6 +19,7 @@
             }}
         >
             <Buttons order={order} />
+p
         </PayPalScriptProvider>
         );
     }

@@ -12,8 +12,8 @@
     import ProfilePage from './pages/Profile/ProfilePage';
     import OrdersPage from './pages/Orders/OrdersPage';
     import Dashboard from './pages/Dashboard/Dashboard';
-    // import AdminRoute from './components/AdminRoute/AdminRoute';
-    // import FoodsAdminPage from './pages/FoodsAdmin/FoodsAdminPage';
+    import AdminRoute from './components/AdminRoute/AdminRoute';
+    import FoodsAdminPage from './pages/FoodsAdmin/FoodsAdminPage';
 
     export default function AppRoutes() {
     return (
@@ -73,14 +73,14 @@
             </AuthRoute>
             }
         />
-        {/* <Route
+        <Route
             path="/admin/foods/:searchTerm?"
             element={
             <AdminRoute>
                 <FoodsAdminPage />
             </AdminRoute>
             }
-        /> */}
+        />
         </Routes>
     );
     }

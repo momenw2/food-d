@@ -32,3 +32,61 @@
         const { data } = await axios.get(`/api/orders/allstatus`);
         return data;
     };
+
+
+
+
+    export const updateOrderStatus = async (orderId, newStatus) => {
+        try {
+            const response = await fetch(`/api/orders/pay/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: newStatus }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to update order status');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    };
+    export const payOrder = async orderId => {
+        try {
+            const response = await fetch(`/api/orders/pay/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: 'PAYED' }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to update order status');
+            }
+    
+            return await response.json();
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    };
+
+    export const shipOrder = async orderId => {
+        try {
+            const { data } = await axios.put(`/api/orders/ship/${orderId}`);
+            return data;
+        } catch (error) {
+            // Handle error
+            throw new Error('Failed to update order status');
+        }
+    };
+    
+    
+        
+    
+    
+    

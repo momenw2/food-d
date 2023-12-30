@@ -48,9 +48,10 @@
                 <StarRating stars={food.stars} size={25} />
             </div>
             <div className={classes.origins}>
-                {food.origins?.map(origin => (
+                {/* {food.vegetarian?.map(origin => (
                 <span key={origin}>{origin}</span>
-                ))}
+                ))} */}
+                <strong>Vegetarian: {food.vegetarian}</strong>
             </div>
             <div className={classes.tags}>
                 {food.tags && (
@@ -60,11 +61,13 @@
                 />
                 )}
             </div>
-            <div className={classes.cook_time}>
+
+            <div className={classes.description}>
                 <span>
-                    Time to cook about <strong>{food.cookTime}</strong> minutes
+                    <strong>{food.description}</strong>
                 </span>
             </div>
+
             <div className={classes.price}>
                 <Price price={food.price} />
             </div>
