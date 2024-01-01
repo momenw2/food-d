@@ -72,7 +72,7 @@ const AddFoodPage = () => {
                         placeholder="Food Name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className={classes.input}
+                        className={classes.addFoodPageinput}
                     />
                     <span className={classes.error}>{formErrors.name}</span>
         
@@ -82,7 +82,7 @@ const AddFoodPage = () => {
                         placeholder="Price"
                         value={formData.price}
                         onChange={handleInputChange}
-                        className={classes.input}
+                        className={classes.addFoodPageinput}
                     />
                     <span className={classes.error}>{formErrors.price}</span>
         
@@ -92,7 +92,7 @@ const AddFoodPage = () => {
                         placeholder="Tags (comma-separated)"
                         value={formData.tags}
                         onChange={handleInputChange}
-                        className={classes.input}
+                        className={classes.addFoodPageinput}
                     />
                     <span className={classes.error}>{formErrors.tags}</span>
         
@@ -102,7 +102,7 @@ const AddFoodPage = () => {
                         placeholder="Image URL"
                         value={formData.imageUrl}
                         onChange={handleInputChange}
-                        className={classes.input}
+                        className={classes.addFoodPageinput}
                     />
                     <span className={classes.error}>{formErrors.imageUrl}</span>
         
@@ -112,7 +112,7 @@ const AddFoodPage = () => {
                         placeholder="Vegetarian (yes/no)"
                         value={formData.vegetarian}
                         onChange={handleInputChange}
-                        className={classes.input}
+                        className={classes.addFoodPageinput}
                     />
                     <span className={classes.error}>{formErrors.vegetarian}</span>
         
@@ -122,7 +122,7 @@ const AddFoodPage = () => {
                         placeholder="Stars (1-5)"
                         value={formData.stars}
                         onChange={handleInputChange}
-                        className={classes.input}
+                        className={classes.addFoodPageinput}
                     />
                     <span className={classes.error}>{formErrors.stars}</span>
         
@@ -133,7 +133,7 @@ const AddFoodPage = () => {
                             name="favorite"
                             checked={formData.favorite}
                             onChange={handleInputChange}
-                            className={classes.input}
+                            className={classes.addFoodPageinput}
                         />
                     </label>
         
@@ -143,7 +143,7 @@ const AddFoodPage = () => {
                         placeholder="Description"
                         value={formData.description}
                         onChange={handleInputChange}
-                        className={classes.input}
+                        className={classes.addFoodPageinput}
                     />
                     <span className={classes.error}>{formErrors.description}</span>
 
