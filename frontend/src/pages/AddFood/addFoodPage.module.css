@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: 3rem;
+}
+
+.details {
+    width: 25rem;
+}
+
+.details form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+input{
+    height: 50px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid gainsboro;
+    font-size: large;
+}
+
+.addFoodButton{
+    display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 20px;
+}
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #af1313;
+    border: 0;
+    height: 50px;
+    color: aliceblue;
+    width: 230px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.favorite{
+    display: flex;
+    align-items: center;
+
+    height: 50px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 2px solid gainsboro;
+    font-size: large;
+}
+.favorite input{
+    margin-left: 12px;
+}

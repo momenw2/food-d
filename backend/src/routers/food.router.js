@@ -73,5 +73,47 @@ router.get(
 
 
 
+                router.post(
+                    '/add',
+                    handler(async (req, res) => {
+                        console.log(req.body);
+                        const {
+                            name,
+                            price,
+                            tags,
+                            favorite,
+                            stars,
+                            imageUrl,
+                            vegetarian,
+                            description,
+                        } = req.body;
+                
+                        try {
+                            if (!name || !price || !tags) {
+                                return res.status(400).send({ message: 'Name, price, and tags are required.' });
+                            }
+                
+                            const newFood = new FoodModel({
+                                name,
+                                price,
+                                tags: tags.split(',').map(tag => tag.trim()), // Split tags by comma and remove whitespace
+                                favorite,
+                                stars,
+                                imageUrl,
+                                vegetarian,
+                                description,
+                            });
+                
+                            const savedFood = await newFood.save();
+                            res.status(201).send(savedFood); // Respond with the newly added food item
+                        } catch (error) {
+                            console.error('Error adding food:', error);
+                            res.status(500).send({ message: 'Failed to add food' });
+                        }
+                    })
+                );
+
+
+
 
     export default router;

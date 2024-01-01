@@ -15,6 +15,10 @@
     import AdminRoute from './components/AdminRoute/AdminRoute';
     import FoodsAdminPage from './pages/FoodsAdmin/FoodsAdminPage';
 
+    import AddFoodPage from './pages/AddFood/AddFoodPage';
+
+
+
     export default function AppRoutes() {
     return (
         <Routes>
@@ -79,6 +83,15 @@
             <AdminRoute>
                 <FoodsAdminPage />
             </AdminRoute>
+            }
+        />
+
+        <Route
+            path="/admin/addFood"
+            element={
+                <AdminRoute>
+                    <AddFoodPage />
+                </AdminRoute>
             }
         />
         </Routes>
