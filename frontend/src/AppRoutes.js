@@ -14,8 +14,10 @@
     import Dashboard from './pages/Dashboard/Dashboard';
     import AdminRoute from './components/AdminRoute/AdminRoute';
     import FoodsAdminPage from './pages/FoodsAdmin/FoodsAdminPage';
-
     import AddFoodPage from './pages/AddFood/AddFoodPage';
+    import EditFood from './pages/EditFood/EditFood';
+
+    
 
 
 
@@ -94,6 +96,17 @@
                 </AdminRoute>
             }
         />
+
+    <Route
+            path="/admin/editFood/:foodId"
+            element={
+            <AdminRoute>
+                <EditFood />
+            </AdminRoute>
+            }
+        />
+
+
         </Routes>
     );
     }

@@ -113,7 +113,80 @@ router.get(
                     })
                 );
 
+                router.delete(
+                    '/:foodId',
+                    handler(async (req, res) => {
+                        const { foodId } = req.params;
+                        try {
+                            const deletedFood = await FoodModel.findByIdAndDelete(foodId);
+                            if (!deletedFood) {
+                                return res.status(404).send({ message: 'Food not found' });
+                            }
+                            res.send({ message: 'Food deleted successfully', deletedFood });
+                        } catch (error) {
+                            console.error('Error deleting food:', error);
+                            res.status(500).send({ message: 'Failed to delete food' });
+                        }
+                    })
+                );
+                
 
+               // ... (code for other routes)
+                router.put(
+                    '/update/:foodId',
+                    handler(async (req, res) => {
+                    const { foodId } = req.params;
+                    const updateFields = {}; // Object to store fields to update
+                    
+                    const {
+                        name,
+                        price,
+                        tags,
+                        favorite,
+                        stars,
+                        imageUrl,
+                        vegetarian,
+                        description,
+                    } = req.body;
+                
+                    // Update only the fields that are present in the request body
+                    if (name) updateFields.name = name;
+                    if (price) updateFields.price = price;
+                    if (tags) {
+                        if (typeof tags === 'string') {
+                        updateFields.tags = tags.split(',').map((tag) => tag.trim());
+                        } else if (Array.isArray(tags)) {
+                        updateFields.tags = tags.map((tag) => tag.trim());
+                        }
+                    }
+                    if (favorite !== undefined) updateFields.favorite = favorite;
+                    if (stars) updateFields.stars = stars;
+                    if (imageUrl) updateFields.imageUrl = imageUrl;
+                    if (vegetarian !== undefined) updateFields.vegetarian = vegetarian;
+                    if (description) updateFields.description = description;
+                
+                    try {
+                        const updatedFood = await FoodModel.findByIdAndUpdate(
+                        foodId,
+                        updateFields,
+                        { new: true } // To return the updated document
+                        );
+                
+                        if (!updatedFood) {
+                        return res.status(404).send({ message: 'Food not found' });
+                        }
+                
+                        res.send(updatedFood); // Respond with the updated food item
+                    } catch (error) {
+                        console.error('Error updating food:', error);
+                        res.status(500).send({ message: 'Failed to update food' });
+                    }
+                    })
+                );
+                
+    
+                    
+                
 
 
     export default router;

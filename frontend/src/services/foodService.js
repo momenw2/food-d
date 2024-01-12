@@ -28,4 +28,18 @@
 
     export async function deleteById(foodId) {
     await axios.delete('/api/foods/' + foodId);
+}
+
+export const updateById = async (foodId, updatedData) => {
+    try {
+        const { data } = await axios.put(`/api/foods/update/${foodId}`, updatedData);
+        return data;
+    } catch (error) {
+        console.error('Error updating food by ID:', error.response.data); // Log the specific error response from the server
+        throw new Error('Error updating food by ID');
     }
+};
+
+
+    
+    
