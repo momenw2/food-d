@@ -16,10 +16,10 @@
 
         if (order.items.length <= 0) res.status(BAD_REQUEST).send('Cart Is Empty!');
 
-        await OrderModel.deleteOne({
-        user: req.user.id,
-        status: OrderStatus.NEW,
-        });
+        // await OrderModel.deleteOne({
+        // user: req.user.id,
+        // status: OrderStatus.NEW,
+        // });
 
         const newOrder = new OrderModel({ ...order, user: req.user.id });
         await newOrder.save();
