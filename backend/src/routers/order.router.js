@@ -9,39 +9,39 @@
     const router = Router();
     router.use(auth);
 
-    // router.post(
-    // '/create',
-    // handler(async (req, res) => {
-    //     const order = req.body;
-
-    //     if (order.items.length <= 0) res.status(BAD_REQUEST).send('Cart Is Empty!');
-
-    //     await OrderModel.deleteOne({
-    //     user: req.user.id,
-    //     status: OrderStatus.NEW,
-    //     });
-
-    //     const newOrder = new OrderModel({ ...order, user: req.user.id });
-    //     await newOrder.save();
-    //     res.send(newOrder);
-    // })
-    // );
-
     router.post(
-        '/create',
-        handler(async (req, res) => {
-            const order = req.body;
+    '/create',
+    handler(async (req, res) => {
+        const order = req.body;
+
+        if (order.items.length <= 0) res.status(BAD_REQUEST).send('Cart Is Empty!');
+
+        await OrderModel.deleteOne({
+        user: req.user.id,
+        status: OrderStatus.NEW,
+        });
+
+        const newOrder = new OrderModel({ ...order, user: req.user.id });
+        await newOrder.save();
+        res.send(newOrder);
+    })
+    );
+
+    // router.post(
+    //     '/create',
+    //     handler(async (req, res) => {
+    //         const order = req.body;
         
-            if (order.items.length <= 0) {
-                return res.status(BAD_REQUEST).send('Cart Is Empty!');
-            }
+    //         if (order.items.length <= 0) {
+    //             return res.status(BAD_REQUEST).send('Cart Is Empty!');
+    //         }
             
         
-            const newOrder = new OrderModel({ ...order, user: req.user.id });
-            await newOrder.save();
-            res.send(newOrder);
-            })
-        );
+    //         const newOrder = new OrderModel({ ...order, user: req.user.id });
+    //         await newOrder.save();
+    //         res.send(newOrder);
+    //         })
+    //     );
         
 
     // router.put(

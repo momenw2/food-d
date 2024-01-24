@@ -66,7 +66,7 @@
                 const ordersData = await getAll(filter);
                 dispatch({ type: 'ORDERS_FETCHED', payload: ordersData });
             } catch (error) {
-                console.error('Error fetching orders:', error);
+                // console.error('Error fetching orders:', error);
             }
         };
     

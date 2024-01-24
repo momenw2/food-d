@@ -3,6 +3,8 @@ import { FoodModel } from '../models/food.model.js';
 import handler from 'express-async-handler';
 import { sample_tags } from '../data.js';
 
+
+
 const router = Router();
 
 
@@ -16,7 +18,6 @@ router.get(
         res.send(foods);
         })
     );
-
 
 
     router.get(

@@ -94,6 +94,46 @@ router.post( '/login', handler(async (req, res) => {
                 })
             );
 
+            router.get('/profile', auth, handler(async (req, res) => {
+                try {
+                    // Check if Authorization header is present
+                    if (!req.headers.authorization) {
+                        return res.status(UNAUTHORIZED).send('Access token missing');
+                    }
+            
+                    // Extract and verify the token
+                    const token = req.headers.authorization.split(' ')[1];
+                    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            
+                    // Fetch user data from the database based on the decoded user ID
+                    const user = await UserModel.findById(decoded.id);
+            
+                    if (!user) {
+                        // Handle the case where the user is not found
+                        return res.status(UNAUTHORIZED).send('User not found');
+                    }
+            
+                    // Provide the user profile data in the response
+                    res.json({
+                        id: user.id,
+                        email: user.email,
+                        name: user.name,
+                        address: user.address,
+                        // Include other profile data as needed
+                    });
+                } catch (error) {
+                    console.error('Authentication Error:', error);
+            
+                    if (error.name === 'TokenExpiredError') {
+                        return res.status(UNAUTHORIZED).send('Access token has expired');
+                    }
+            
+                    // Handle other token verification errors
+                    res.status(UNAUTHORIZED).send('Authentication failed');
+                }
+            }));
+            
+
         const generateTokenResponse = user => {
             const token = jwt.sign(
                 {

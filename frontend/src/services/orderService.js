@@ -35,7 +35,6 @@
 
 
 
-
     export const updateOrderStatus = async (orderId, newStatus) => {
         try {
             const response = await fetch(`/api/orders/pay/${orderId}`, {
