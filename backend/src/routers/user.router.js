@@ -9,17 +9,18 @@ import auth from '../middleware/auth.mid.js';
 const PASSWORD_HASH_SALT_ROUNDS = 10;
 
 
-router.post( '/login', handler(async (req, res) => {
+router.post('/login', handler(async (req, res) => {
     const { email, password } = req.body;
     const user = await UserModel.findOne({ email });
+
     if (user && (await bcrypt.compare(password, user.password))) {
-        res.send(generateTokenResponse(user));
-        return;
-    }
-        
+        const tokenResponse = generateTokenResponse(user);
+        res.json(tokenResponse);
+    } else {
         res.status(BAD_REQUEST).send('Username or password is invalid');
-    })
-    );
+    }
+}));
+
 
 
     router.post(
@@ -119,6 +120,11 @@ router.post( '/login', handler(async (req, res) => {
                         email: user.email,
                         name: user.name,
                         address: user.address,
+                        isAdmin: user.isAdmin,
+                        birthdate: user.birthdate,
+                        phoneNumber: user.phoneNumber,
+                        gender: user.gender,
+                        token,
                         // Include other profile data as needed
                     });
                 } catch (error) {
@@ -132,6 +138,7 @@ router.post( '/login', handler(async (req, res) => {
                     res.status(UNAUTHORIZED).send('Authentication failed');
                 }
             }));
+            
             
 
         const generateTokenResponse = user => {
