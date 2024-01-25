@@ -65,7 +65,7 @@ app.use('/api/cart', cartRouter);
 app.use('/api/dish', foodRouter);
 app.use('/api/account', userRouter);
 // app.use('/api/orders', orderRouter);
-// app.use('/api/cart', cartRouter);
+app.use('/api/basket', cartRouter);
 
 
 const PORT = process.env.PORT || 5001;

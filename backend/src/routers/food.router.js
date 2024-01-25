@@ -24,9 +24,9 @@ router.get('/', handler(async (req, res) => {
     const modifiedFoods = foods.map(food => ({
         name: food.name,
         price: food.price,
-        category: food.tags, // Change "tags" to "category"
+        category: food.tags.join(', '), // Change "tags" to "category"
         rating: food.stars, // Change "stars" to "rating"
-        vegetarian: food.vegetarian,
+        vegetarian: Boolean(food.vegetarian),
         description: food.description,
         image: food.imageUrl, // Change "imageUrl" to "image"
         id: food.id
@@ -87,14 +87,40 @@ router.get('/', handler(async (req, res) => {
             })
             );
 
-            router.get(
-                '/:foodId',
-                handler(async (req, res) => {
-                    const { foodId } = req.params;
-                    const food = await FoodModel.findById(foodId);
-                    res.send(food);
-                })
-                );
+            // router.get(
+            //     '/:foodId',
+            //     handler(async (req, res) => {
+            //         const { foodId } = req.params;
+            //         const food = await FoodModel.findById(foodId);
+                    
+            //         res.send(food);
+            //     })
+            //     );
+            router.get('/:foodId', handler(async (req, res) => {
+                const { foodId } = req.params;
+                const food = await FoodModel.findById(foodId).lean();
+            
+                // Create a new object with specific fields and names
+                const responseObj = {
+                    name: food.name,
+                    price: food.price,
+                    category: food.tags.join(', '), // Change "tags" to "category"
+                    rating: food.stars, // Change "stars" to "rating"
+                    vegetarian: Boolean(food.vegetarian),
+                    description: food.description,
+                    image: food.imageUrl, // Change "imageUrl" to "image"
+                    id: food._id // Explicitly set the 'id' field
+                };
+            
+                res.send(responseObj);
+            }));
+            
+            
+            
+            
+        
+            
+            
 
 
 

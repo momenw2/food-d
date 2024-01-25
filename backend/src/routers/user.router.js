@@ -83,7 +83,6 @@ router.post('/login', handler(async (req, res) => {
                     { new: true }
                 );
             
-                // Update the property name in the response to "fullName" instead of "name"
                 res.send({
                     fullName: user.name, 
                     address: user.address,
