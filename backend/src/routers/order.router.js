@@ -229,6 +229,38 @@
                 return res.send(order);
                 })
             );
+
+
+            router.get(
+                '/:orderId',
+                handler(async (req, res) => {
+                    const { orderId } = req.params;
+                    const user = await UserModel.findById(req.user.id);
+            
+                    const filter = {
+                        _id: orderId,
+                    };
+            
+                    if (!user.isAdmin) {
+                        filter.user = user._id;
+                    }
+            
+                    const order = await OrderModel.findOne(filter);
+            
+                    if (!order) return res.send(UNAUTHORIZED);
+            
+                    const simplifiedOrder = {
+                        id: order._id,
+                        deliveryTime: order.deliveryTime,
+                        orderTime: order.orderTime,
+                        status: order.status,
+                        price: order.totalPrice,
+                    };
+            
+                    return res.send([simplifiedOrder]);
+                })
+            );
+            
             
                 
         router.get(

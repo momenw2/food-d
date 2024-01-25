@@ -15,7 +15,7 @@ router.post('/login', handler(async (req, res) => {
 
     if (user && (await bcrypt.compare(password, user.password))) {
         const tokenResponse = generateTokenResponse(user);
-        //res.json(tokenResponse);
+        // res.json(tokenResponse);
         res.json({ token: tokenResponse.token});
         
 
@@ -23,6 +23,9 @@ router.post('/login', handler(async (req, res) => {
         res.status(BAD_REQUEST).send('Username or password is invalid');
     }
 }));
+
+
+
 
 
 
@@ -190,7 +193,8 @@ router.post('/login', handler(async (req, res) => {
                 isAdmin: user.isAdmin,
                 phoneNumber: user.phoneNumber,
                 gender: user.gender,
-                birthdate: user.birthdate
+                birthdate: user.birthdate,
+                token,
             };
         };
 

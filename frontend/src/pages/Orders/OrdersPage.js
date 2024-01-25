@@ -92,17 +92,26 @@
         };
 
 
-        const handleShipOrder = async orderId => {
+        const handleShipOrder = async (orderId) => {
             try {
                 await shipOrder(orderId); // Call the service to update order status
         
-                // Refresh the page after shipping the order
-                window.location.reload();
+                // Update the order status in the local state
+                const updatedOrders = orders.map(order => {
+                    if (order.id === orderId) {
+                        return { ...order, status: 'SHIPPED' }; // Update the order status locally
+                    }
+                    return order;
+                });
+        
+                // Update the state with the new order status
+                dispatch({ type: 'ORDERS_FETCHED', payload: updatedOrders });
             } catch (error) {
                 console.error('Error shipping order:', error);
                 // Handle the error
             }
         };
+        
         
 
 
