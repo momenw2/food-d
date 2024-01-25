@@ -15,7 +15,10 @@ router.post('/login', handler(async (req, res) => {
 
     if (user && (await bcrypt.compare(password, user.password))) {
         const tokenResponse = generateTokenResponse(user);
-        res.json(tokenResponse);
+        //res.json(tokenResponse);
+        res.json({ token: tokenResponse.token});
+        
+
     } else {
         res.status(BAD_REQUEST).send('Username or password is invalid');
     }
@@ -40,7 +43,7 @@ router.post('/login', handler(async (req, res) => {
             );
         
             const newUser = {
-                name,
+                name ,
                 email: email.toLowerCase(),
                 password: hashedPassword,
                 address,
@@ -50,7 +53,10 @@ router.post('/login', handler(async (req, res) => {
             };
         
             const result = await UserModel.create(newUser);
-            res.send(generateTokenResponse(result));
+            const token = generateTokenResponse(result);
+        
+            // Send only the token as a string in the response
+            res.send({ token: token.token });
             })
         );
 
@@ -58,16 +64,36 @@ router.post('/login', handler(async (req, res) => {
             '/updateProfile',
             auth,
             handler(async (req, res) => {
-                const { name, address, email, phoneNumber} = req.body;
+                const { name, address, phoneNumber, birthdate, gender} = req.body;
                 const user = await UserModel.findByIdAndUpdate(
                     req.user.id,
-                    { name, address, email, phoneNumber },
+                    { name, address, phoneNumber, birthdate, gender},
                     { new: true }
                 );
             
                 res.send(generateTokenResponse(user));
                 })
             );
+
+            router.put('/profile', auth, handler(async (req, res) => {
+                const { fullName, address, phoneNumber, birthdate, gender } = req.body;
+                const user = await UserModel.findByIdAndUpdate(
+                    req.user.id,
+                    { name: fullName, address, phoneNumber, birthdate, gender },
+                    { new: true }
+                );
+            
+                // Update the property name in the response to "fullName" instead of "name"
+                res.send({
+                    fullName: user.name, 
+                    address: user.address,
+                    birthdate: user.birthdate,
+                    phoneNumber: user.phoneNumber,
+                    gender: user.gender,
+                });
+            }));
+            
+            
             
             router.put(
                 '/changePassword',
@@ -97,14 +123,19 @@ router.post('/login', handler(async (req, res) => {
 
             router.get('/profile', auth, handler(async (req, res) => {
                 try {
+
+                    //return res.json("hello");
                     // Check if Authorization header is present
-                    if (!req.headers.authorization) {
+                    if (!req.headers.access_token) {
                         return res.status(UNAUTHORIZED).send('Access token missing');
                     }
             
                     // Extract and verify the token
-                    const token = req.headers.authorization.split(' ')[1];
+                    //const token = req.headers.authorization.split(' ')[1];
+                    const token = req.headers.access_token;
+                    //return res.json(token);
                     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                    //return res.json(decoded)
             
                     // Fetch user data from the database based on the decoded user ID
                     const user = await UserModel.findById(decoded.id);
@@ -118,9 +149,8 @@ router.post('/login', handler(async (req, res) => {
                     res.json({
                         id: user.id,
                         email: user.email,
-                        name: user.name,
+                        fullName: user.name,
                         address: user.address,
-                        isAdmin: user.isAdmin,
                         birthdate: user.birthdate,
                         phoneNumber: user.phoneNumber,
                         gender: user.gender,
@@ -161,8 +191,7 @@ router.post('/login', handler(async (req, res) => {
                 isAdmin: user.isAdmin,
                 phoneNumber: user.phoneNumber,
                 gender: user.gender,
-                birthdate: user.birthdate,
-                token,
+                birthdate: user.birthdate
             };
         };
 

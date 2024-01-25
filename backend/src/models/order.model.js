@@ -23,31 +23,57 @@
     }
     );
 
-    OrderItemSchema.pre('validate', function (next) {
-    this.price = this.food.price * this.quantity;
-    next();
-    });
+    // OrderItemSchema.pre('validate', function (next) {
+    // this.price = this.food.price * this.quantity;
+    // next();
+    // });
 
-    const orderSchema = new Schema(
-    {
-        name: { type: String, required: true },
-        address: { type: String, required: true },
-        addressLatLng: { type: LatLngSchema, required: true },
-        paymentId: { type: String },
-        totalPrice: { type: Number, required: true },
-        items: { type: [OrderItemSchema], required: true },
-        status: { type: String, default: OrderStatus.NEW },
-        user: { type: Schema.Types.ObjectId, required: true },
-    },
-    {
-        timestamps: true,
-        toJSON: {
-        virtuals: true,
-        },
-        toObject: {
-        virtuals: true,
-        },
-    }
-    );
+    // const orderSchema = new Schema(
+    // {
+    //     name: { type: String, required: true },
+    //     address: { type: String, required: true },
+    //     addressLatLng: { type: LatLngSchema, required: true },
+    //     paymentId: { type: String },
+    //     totalPrice: { type: Number, required: true },
+    //     //items: { type: [OrderItemSchema], required: true },
+    //     dishes: [
+    //         {
+    //             foodid: String,
+    //             quantity: Number
+    //         }
+    //     ],
+    //     status: { type: String, default: OrderStatus.NEW },
+    //     user: { type: Schema.Types.ObjectId, required: true },
+    // },
+    // {
+    //     timestamps: true,
+    //     toJSON: {
+    //     virtuals: true,
+    //     },
+    //     toObject: {
+    //     virtuals: true,
+    //     },
+    // }
+    // );
+
+
+    OrderItemSchema.pre('validate', function (next) {
+        this.price = this.food.price * this.quantity;
+        next();
+        });
+    
+        const orderSchema = new Schema(
+        {
+            dishes: [
+                {
+                    foodid: String,
+                    quantity: Number
+                }
+            ],
+            status: { type: String, default: OrderStatus.NEW },
+            user: { type: Schema.Types.ObjectId, required: true },
+        }
+        );
 
     export const OrderModel = model('order', orderSchema);
+    

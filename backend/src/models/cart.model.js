@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 
 const cartItemSchema = new mongoose.Schema({
-    foodId: String,
-    quantity: Number,
+    dishes: [
+        {
+            foodid: String,
+            quantity: Number
+        }
+    ],
+    userid: String
 });
 
 const CartItem = mongoose.model('CartItem', cartItemSchema);

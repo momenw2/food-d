@@ -11,13 +11,30 @@ const router = Router();
 
 
 
-router.get(
-    '/',
-    handler(async (req, res) => {
-        const foods = await FoodModel.find({});
-        res.send(foods);
-        })
-    );
+// router.get(
+//     '/',
+//     handler(async (req, res) => {
+//         const foods = await FoodModel.find({});
+//         res.send(foods);
+//         })
+//     );
+
+router.get('/', handler(async (req, res) => {
+    const foods = await FoodModel.find({});
+    const modifiedFoods = foods.map(food => ({
+        name: food.name,
+        price: food.price,
+        category: food.tags, // Change "tags" to "category"
+        rating: food.stars, // Change "stars" to "rating"
+        vegetarian: food.vegetarian,
+        description: food.description,
+        image: food.imageUrl, // Change "imageUrl" to "image"
+        id: food.id
+    }));
+
+    res.send(modifiedFoods);
+}));
+
 
 
     router.get(
